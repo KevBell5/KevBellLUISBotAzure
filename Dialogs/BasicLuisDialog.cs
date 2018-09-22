@@ -38,10 +38,9 @@ namespace Microsoft.Bot.Sample.LuisBot
         }
 
         [LuisIntent(Intent_Help)]
-        public async Task HelpIntent(IDialogContext context)
+        public async Task HelpIntent(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You can try some of the following things...");
-            context.Wait(MessageReceived);
+            await this.ShowLuisResult(context, result);
         }
 
         [LuisIntent(Intent_None)]
@@ -85,8 +84,16 @@ namespace Microsoft.Bot.Sample.LuisBot
             // round number
             string roundedScore =  result.Intents[0].Score != null ? (Math.Round(result.Intents[0].Score.Value, 2).ToString()) : "0";
             
-            await context.PostAsync($"**Query**: {result.Query}, **Intent**: {result.Intents[0].Intent}, **Score**: {roundedScore}. **Entities**: {entities}");
-            context.Wait(MessageReceived);
+            if (result.Intents[0].Intent==Intent_Help)
+            {
+                await context.PostAsync($"You asked for**: {result.Intents[0].Intent}");
+                context.Wait(MessageReceived);
+            }
+            else
+            { 
+                await context.PostAsync($"**Query**: {result.Query}, **Intent**: {result.Intents[0].Intent}, **Score**: {roundedScore}. **Entities**: {entities}");
+                context.Wait(MessageReceived);
+            }
         }
         
         // Entities found in result
