@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         }
 
         [LuisIntent(Intent_Help)]
-        public async Task HelpIntent()
+        public async Task HelpIntent(IDialogContext context)
         {
             await context.PostAsync($"You can try some of the following things...");
             context.Wait(MessageReceived);
