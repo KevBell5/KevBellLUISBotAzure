@@ -86,8 +86,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             
             if (result.Intents[0].Intent==Intent_Help)
             {
-                await context.PostAsync($"These are the kind of tasks you can perform:" +
-                    $"Watch <channel name>" +
+                await context.PostAsync($"These are the kind of tasks you can perform:\n" +
+                    $"Watch <channel name>\n" +
                     $"Turn off/on <room> lights");
 
 
