@@ -86,14 +86,13 @@ namespace Microsoft.Bot.Sample.LuisBot
             
             if (result.Intents[0].Intent==Intent_Help)
             {
-                await context.PostAsync($"You asked for**: {result.Intents[0].Intent}");
-                context.Wait(MessageReceived);
+                await context.PostAsync($"These are the kind of tasks you can perform:");
             }
             else
             { 
                 await context.PostAsync($"**Query**: {result.Query}, **Intent**: {result.Intents[0].Intent}, **Score**: {roundedScore}. **Entities**: {entities}");
-                context.Wait(MessageReceived);
             }
+            context.Wait(MessageReceived);
         }
         
         // Entities found in result
