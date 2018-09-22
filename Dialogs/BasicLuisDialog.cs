@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         public const string Entity_Device = "HomeAutomation.Device";
         public const string Entity_Room = "HomeAutomation.Room";
         public const string Entity_Operation = "HomeAutomation.Operation";
-        public const string Entity_TVChannel = "TV.Channnel";
+        public const string Entity_TVChannel = "TV.ChannnelName";
         
         // Intents
         public const string Intent_TurnOn = "HomeAutomation.TurnOn";
@@ -28,7 +28,8 @@ namespace Microsoft.Bot.Sample.LuisBot
         public const string Intent_TVChannel = "TV.ChangeChannel";
         public const string Intent_TVWatch = "TV.WatchTV";
         public const string Intent_None = "None";
-        
+        public const string Intent_Help = "Help";
+
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
             ConfigurationManager.AppSettings["LuisAPIKey"], 
@@ -36,7 +37,14 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
         }
 
-        [LuisIntent("None")]
+        [LuisIntent(Intent_Help)]
+        public async Task HelpIntent()
+        {
+            await context.PostAsync($"You can try some of the following things...");
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent(Intent_None)]
         public async Task NoneIntent(IDialogContext context, LuisResult result)
         {
             await this.ShowLuisResult(context, result);
